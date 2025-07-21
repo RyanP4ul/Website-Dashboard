@@ -1,9 +1,66 @@
 import { createFileRoute } from '@tanstack/react-router'
+import {useTitle} from "@/hooks/useTitle.ts";
+import React from "react";
+import {AppSidebar} from "@/components/app-sidebar.tsx";
+import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar.tsx";
+import {SiteHeader} from "@/components/site-header.tsx";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList, BreadcrumbPage,
+    BreadcrumbSeparator
+} from "@/components/ui/breadcrumb.tsx";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+import {CheckCircle2Icon} from "lucide-react";
+import { DataTable } from "@/features/panel/factions/data-table.tsx";
 
 export const Route = createFileRoute('/panel/factions')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/panel/factions"!</div>
+  useTitle('Factions')
+
+  return (
+      <SidebarProvider style={
+          {
+              "--sidebar-width": "calc(var(--spacing) * 72)",
+              "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
+      }>
+          <AppSidebar />
+          <SidebarInset>
+              <SiteHeader />
+              <div className="flex flex-1 flex-col gap-4 p-4">
+                  <Breadcrumb>
+                      <BreadcrumbList>
+                          <BreadcrumbItem>
+                              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                          </BreadcrumbItem>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbItem>
+                              <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+                          </BreadcrumbItem>
+                          <BreadcrumbSeparator />
+                          <BreadcrumbItem>
+                              <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                          </BreadcrumbItem>
+                      </BreadcrumbList>
+                  </Breadcrumb>
+                  <Alert>
+                      <CheckCircle2Icon />
+                      <AlertTitle>Testing Panel</AlertTitle>
+                      <AlertDescription>
+                          This is a test panel for the faction system.
+                      </AlertDescription>
+                      <AlertDescription>
+                          This is an alert with icon, title and description.
+                      </AlertDescription>
+                  </Alert>
+                <DataTable />
+              </div>
+          </SidebarInset>
+      </SidebarProvider>
+  )
 }

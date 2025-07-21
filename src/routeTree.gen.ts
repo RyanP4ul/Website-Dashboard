@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PanelIndexRouteImport } from './routes/panel/index'
+import { Route as PanelItemsRouteImport } from './routes/panel/items'
 import { Route as PanelFactionsRouteImport } from './routes/panel/factions'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const PanelIndexRoute = PanelIndexRouteImport.update({
   id: '/panel/',
   path: '/panel/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanelItemsRoute = PanelItemsRouteImport.update({
+  id: '/panel/items',
+  path: '/panel/items',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PanelFactionsRoute = PanelFactionsRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof authLoginRoute
   '/panel/factions': typeof PanelFactionsRoute
+  '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof authLoginRoute
   '/panel/factions': typeof PanelFactionsRoute
+  '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(auth)/login': typeof authLoginRoute
   '/panel/factions': typeof PanelFactionsRoute
+  '/panel/items': typeof PanelItemsRoute
   '/panel/': typeof PanelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/panel/factions' | '/panel'
+  fullPaths: '/' | '/login' | '/panel/factions' | '/panel/items' | '/panel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/panel/factions' | '/panel'
-  id: '__root__' | '/' | '/(auth)/login' | '/panel/factions' | '/panel/'
+  to: '/' | '/login' | '/panel/factions' | '/panel/items' | '/panel'
+  id:
+    | '__root__'
+    | '/'
+    | '/(auth)/login'
+    | '/panel/factions'
+    | '/panel/items'
+    | '/panel/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   authLoginRoute: typeof authLoginRoute
   PanelFactionsRoute: typeof PanelFactionsRoute
+  PanelItemsRoute: typeof PanelItemsRoute
   PanelIndexRoute: typeof PanelIndexRoute
 }
 
@@ -83,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/panel'
       fullPath: '/panel'
       preLoaderRoute: typeof PanelIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panel/items': {
+      id: '/panel/items'
+      path: '/panel/items'
+      fullPath: '/panel/items'
+      preLoaderRoute: typeof PanelItemsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/panel/factions': {
@@ -106,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   authLoginRoute: authLoginRoute,
   PanelFactionsRoute: PanelFactionsRoute,
+  PanelItemsRoute: PanelItemsRoute,
   PanelIndexRoute: PanelIndexRoute,
 }
 export const routeTree = rootRouteImport

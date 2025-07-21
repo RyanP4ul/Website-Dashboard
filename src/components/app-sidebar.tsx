@@ -15,135 +15,52 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDashboard, faFlag, faFile, faCode } from '@fortawesome/free-solid-svg-icons';
+
 // This is sample data.
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
+  nav: [
     {
-      title: "Getting Started",
+      title: "Main",
       url: "#",
       items: [
         {
-          title: "Installation",
+          title: "Dashboard",
           url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
+          icon: faDashboard,
           isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
+        }
       ],
     },
     {
-      title: "API Reference",
+      title: "Tables",
       url: "#",
       items: [
         {
-          title: "Components",
-          url: "#",
-        },
+          title: "Factions",
+          url: "/panel/factions",
+          icon: faFlag,
+        }
+      ],
+    },
+    {
+      title: "Others",
+      url: "#",
+      items: [
         {
-          title: "File Conventions",
+          title: "Upload Files",
           url: "#",
+          icon: faFile,
         },
         {
           title: "Functions",
           url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
+          icon: faCode,
+        }
       ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
+    }
   ],
 }
 
@@ -158,8 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {data.nav.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -167,7 +83,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
+                        <a href={item.url}>
+                          <FontAwesomeIcon icon={item.icon}/>
+                          <span>{item.title}</span>
+                        </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

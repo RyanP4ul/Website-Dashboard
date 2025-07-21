@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { Toaster } from "@/components/ui/sonner"
+
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -31,10 +33,13 @@ declare module '@tanstack/react-router' {
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
+
   root.render(
     <StrictMode>
-      <ThemeProvider>
+      <Toaster />
+      <ThemeProvider defaultTheme="light">
         <RouterProvider router={router} />
+        
       </ThemeProvider>
     </StrictMode>,
   )

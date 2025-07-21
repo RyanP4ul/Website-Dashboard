@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/password-input';
+import {useTitle} from "@/hooks/useTitle.ts";
 
 export const Route = createFileRoute('/(auth)/login')({
   component: Login,
@@ -32,6 +33,7 @@ const formSchema = z.object({
 })
 
 function Login() {
+    useTitle("Login");
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -87,19 +89,21 @@ function Login() {
                                 onSubmit={form.handleSubmit(onSubmit)}
                                 className="grid gap-3"
                             >
-                                <FormField
-                                    control={form.control}
-                                    name='email'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder='Enter your email' {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                <div>
+                                    <FormField
+                                        control={form.control}
+                                        name='email'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder='Enter your email' {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                                 <FormField
                                     control={form.control}
                                     name='password'
