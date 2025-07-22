@@ -12,10 +12,32 @@ import {
 } from "@/components/ui/sidebar"
 import { SiteHeader } from "@/components/site-header"
 import { useTitle } from '@/hooks/useTitle'
+import { TrendingUp, Users } from 'lucide-react'
 
 export const Route = createFileRoute('/panel/')({
   component: Dashboard,
 })
+
+const StatCard = ({ title, value, icon: Icon, description, change }: any) => (
+  <Card className="bg-card/50 backdrop-blur-sm border border-border shadow-card hover:shadow-glow transition-shadow">
+    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+      <Icon className="h-4 w-4 text-muted-foreground" />
+    </CardHeader>
+    <CardContent>
+      <div className="text-2xl font-bold text-foreground">{value.toLocaleString()}</div>
+      {change && (
+        <p className="text-xs text-success flex items-center mt-1">
+          <TrendingUp className="h-3 w-3 mr-1" />
+          +{change}% from last month
+        </p>
+      )}
+      {description && (
+        <p className="text-xs text-muted-foreground mt-1">{description}</p>
+      )}
+    </CardContent>
+  </Card>
+);
 
 function Dashboard() {
 
@@ -33,40 +55,29 @@ function Dashboard() {
           <SiteHeader />
           <div className="flex flex-1 flex-col gap-4 p-4">
             <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>
-                    Subscriptions
-                  </CardTitle>
-                  <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth='2'
-                      className='text-muted-foreground h-4 w-4'
-                  >
-                    <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
-                    <circle cx='9' cy='7' r='4' />
-                    <path d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>+2350</div>
-                  <p className='text-muted-foreground text-xs'>
-                    +180.1% from last month
-                  </p>
-                </CardContent>
-              </Card>
-            {/*  <div className="bg-muted/50 aspect-video rounded-xl">*/}
-            {/*    Test*/}
-            {/*  </div>*/}
-            {/*  <div className="bg-muted/50 aspect-video rounded-xl" />*/}
-            {/*  <div className="bg-muted/50 aspect-video rounded-xl" />*/}
-            {/*</div>*/}
-            {/*<div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">*/}
+              <StatCard
+              title="Total Registered"
+              value="10"
+              icon={Users}
+              change={12}
+              description="Active user accounts"
+            />
+              
+              <StatCard
+                title="Total Factions"
+                value="5"
+                icon={Users}
+                change={8}
+                description="Number of factions created"
+              />
+              <StatCard
+                title="Total Posts"
+                value="100"
+                icon={TrendingUp}
+                change={15}
+                description="Posts made by users"
+              />
+
             </div>
           </div>
 

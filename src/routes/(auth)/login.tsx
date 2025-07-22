@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from "react";
 import { Link } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card.tsx";
@@ -10,6 +10,9 @@ import { z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/password-input';
 import {useTitle} from "@/hooks/useTitle.ts";
+import { useAuth } from '@/context/AuthProvider';
+import axios from 'axios';
+import { Loader2Icon } from 'lucide-react';
 
 export const Route = createFileRoute('/(auth)/login')({
   component: Login,
@@ -18,29 +21,35 @@ export const Route = createFileRoute('/(auth)/login')({
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
 const formSchema = z.object({
-    email: z
+    name: z
         .string()
-        .min(1, { message: 'Please enter your email' })
-        .email({ message: 'Invalid email address' }),
+        .min(1, { message: 'Please enter your name' }),
     password: z
         .string()
         .min(1, {
             message: 'Please enter your password',
         })
-        .min(7, {
+        .min(2, {
             message: 'Password must be at least 7 characters long',
         }),
 })
 
 function Login() {
+    const { isLoggedIn } = useAuth()
+
+    if (isLoggedIn) {
+        return <div className='container mx-auto p-4'>You are already logged in.</div>;
+    }
+
     useTitle("Login");
 
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: '',
+            name: '',
             password: '',
         },
     })
@@ -49,9 +58,27 @@ function Login() {
         setIsLoading(true)
         console.log(data)
 
-        setTimeout(() => {
+        axios.post('http://localhost:3000/api/auth/login', {
+            name: data.name,
+            password: data.password,
+        })
+        .then((response) => {
+            localStorage.setItem('token', response.data.token);
+            navigate({ to: '/' });
+        })
+        .catch((error) => {
+            for (const key in error.response?.data?.errors || {}) {
+                form.setError(key as keyof z.infer<typeof formSchema>, {
+                    type: 'server',
+                    message: error.response.data.errors[key],
+                });
+            }
+        })
+        .finally(() => {
+           setTimeout(() => {
             setIsLoading(false)
-        }, 3000)
+           }, 1000)
+        });
     }
 
     return (
@@ -77,7 +104,7 @@ function Login() {
                     <CardHeader>
                         <CardTitle className='text-lg tracking-tight'>Login</CardTitle>
                         <CardDescription>
-                            Enter your email and password below to <br />
+                            Enter your name and password below to <br />
                             log into your account
                         </CardDescription>
                     </CardHeader>
@@ -92,12 +119,12 @@ function Login() {
                                 <div>
                                     <FormField
                                         control={form.control}
-                                        name='email'
+                                        name='name'
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Email</FormLabel>
+                                                <FormLabel>Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder='Enter your email' {...field} />
+                                                    <Input placeholder='Enter your name' {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -124,7 +151,15 @@ function Login() {
                                     )}
                                 />
                                 <Button className='mt-2' disabled={isLoading}>
-                                    Login
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2Icon className="mr-2 animate-spin h-4 w-4" />
+                                            Loading...
+                                        </>
+                                    ) : (
+                                        <span>Login</span>
+                                    )}
+                            
                                 </Button>
 
                                 <div className='relative my-2'>
