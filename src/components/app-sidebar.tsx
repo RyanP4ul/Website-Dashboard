@@ -42,6 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           versions={data.versions}
           defaultVersion={data.versions[0]}
         /> */}
+        <h1>{user?.name} | {user?.access}</h1>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent>
@@ -115,7 +116,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={{ name: user?.name || "", email: "john@example.com", avatar: "/path/to/avatar.jpg" }} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

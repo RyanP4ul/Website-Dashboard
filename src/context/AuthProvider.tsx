@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
+import type { AccessLevel } from '@/constants/accessLevel'
 
 type User = {
   id: number
-  name: string
+  name: string,
+  access: number
 }
 
 type AuthContextType = {

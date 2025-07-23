@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as GameRouteImport } from './routes/game'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PanelIndexRouteImport } from './routes/panel/index'
 import { Route as PanelItemsRouteImport } from './routes/panel/items'
 import { Route as PanelFactionsRouteImport } from './routes/panel/factions'
+import { Route as PanelAdminRouteImport } from './routes/panel/admin'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
+const GameRoute = GameRouteImport.update({
+  id: '/game',
+  path: '/game',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -35,6 +42,11 @@ const PanelFactionsRoute = PanelFactionsRouteImport.update({
   path: '/panel/factions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanelAdminRoute = PanelAdminRouteImport.update({
+  id: '/panel/admin',
+  path: '/panel/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
@@ -43,14 +55,18 @@ const authLoginRoute = authLoginRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
   '/login': typeof authLoginRoute
+  '/panel/admin': typeof PanelAdminRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
   '/login': typeof authLoginRoute
+  '/panel/admin': typeof PanelAdminRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
@@ -58,20 +74,38 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/game': typeof GameRoute
   '/(auth)/login': typeof authLoginRoute
+  '/panel/admin': typeof PanelAdminRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel/': typeof PanelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/panel/factions' | '/panel/items' | '/panel'
+  fullPaths:
+    | '/'
+    | '/game'
+    | '/login'
+    | '/panel/admin'
+    | '/panel/factions'
+    | '/panel/items'
+    | '/panel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/panel/factions' | '/panel/items' | '/panel'
+  to:
+    | '/'
+    | '/game'
+    | '/login'
+    | '/panel/admin'
+    | '/panel/factions'
+    | '/panel/items'
+    | '/panel'
   id:
     | '__root__'
     | '/'
+    | '/game'
     | '/(auth)/login'
+    | '/panel/admin'
     | '/panel/factions'
     | '/panel/items'
     | '/panel/'
@@ -79,7 +113,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GameRoute: typeof GameRoute
   authLoginRoute: typeof authLoginRoute
+  PanelAdminRoute: typeof PanelAdminRoute
   PanelFactionsRoute: typeof PanelFactionsRoute
   PanelItemsRoute: typeof PanelItemsRoute
   PanelIndexRoute: typeof PanelIndexRoute
@@ -87,6 +123,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/game': {
+      id: '/game'
+      path: '/game'
+      fullPath: '/game'
+      preLoaderRoute: typeof GameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -115,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelFactionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/panel/admin': {
+      id: '/panel/admin'
+      path: '/panel/admin'
+      fullPath: '/panel/admin'
+      preLoaderRoute: typeof PanelAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
@@ -127,7 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GameRoute: GameRoute,
   authLoginRoute: authLoginRoute,
+  PanelAdminRoute: PanelAdminRoute,
   PanelFactionsRoute: PanelFactionsRoute,
   PanelItemsRoute: PanelItemsRoute,
   PanelIndexRoute: PanelIndexRoute,

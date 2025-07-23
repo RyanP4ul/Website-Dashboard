@@ -14,16 +14,20 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.tsx";
 import { CheckCircle2Icon } from "lucide-react";
 import { useAuth } from '@/context/AuthProvider';
 import { useTitle } from '@/hooks/useTitle.ts';
+import type { AccessLevel } from "@/constants/accessLevel";
+import ProtectedRoute from "@/components/protected-routes.tsx";
 
 export default function RouteComponent({
   title = "Factions",
+  accessLevel,
   children,
 }: {
   title?: string;
+  accessLevel: AccessLevel;
   children: React.ReactNode;
 }) {
 
-  const { user, isLoggedIn } = useAuth()
+  const { isLoggedIn } = useAuth()
 
   if (!isLoggedIn) {
     throw new Response('Unauthorized', { status: 401 })
@@ -32,7 +36,8 @@ export default function RouteComponent({
   useTitle(title)
 
   return (
-    <SidebarProvider
+    <ProtectedRoute requiredAccess={accessLevel}>
+      <SidebarProvider
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -69,5 +74,6 @@ export default function RouteComponent({
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </ProtectedRoute>
   );
 }
