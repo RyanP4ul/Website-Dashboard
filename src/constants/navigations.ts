@@ -21,6 +21,11 @@ export default function navigation() {
       title: "Game Data",
       items: [
         {
+          title: "Areas",
+          url: "/panel/areas",
+          icon: faFlag,
+        },
+        {
           title: "Factions",
           url: "/panel/factions",
           icon: faFlag,

@@ -49,11 +49,16 @@ type Props = {
   handleAddNewItem: () => void;
 };
 
-export default function TestDB({ data, columns, handleAddNewItem }: Props) {
+export default function DataTable({ data, columns, handleAddNewItem }: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 10, });
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] =React.useState<VisibilityState>({});
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -90,7 +95,7 @@ export default function TestDB({ data, columns, handleAddNewItem }: Props) {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="cursor-pointer ml-auto">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -102,7 +107,7 @@ export default function TestDB({ data, columns, handleAddNewItem }: Props) {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="cursor-pointer capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
@@ -115,15 +120,17 @@ export default function TestDB({ data, columns, handleAddNewItem }: Props) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-2"
-          onClick={handleAddNewItem}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-          Add New Items
-        </Button>
+        {handleAddNewItem && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="cursor-pointer ml-2"
+            onClick={handleAddNewItem}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            Add New Items
+          </Button>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

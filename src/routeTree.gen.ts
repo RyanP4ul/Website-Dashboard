@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PanelIndexRouteImport } from './routes/panel/index'
 import { Route as PanelItemsRouteImport } from './routes/panel/items'
 import { Route as PanelFactionsRouteImport } from './routes/panel/factions'
+import { Route as PanelAreasRouteImport } from './routes/panel/areas'
 import { Route as PanelAdminRouteImport } from './routes/panel/admin'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
@@ -42,6 +43,11 @@ const PanelFactionsRoute = PanelFactionsRouteImport.update({
   path: '/panel/factions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanelAreasRoute = PanelAreasRouteImport.update({
+  id: '/panel/areas',
+  path: '/panel/areas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PanelAdminRoute = PanelAdminRouteImport.update({
   id: '/panel/admin',
   path: '/panel/admin',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/game': typeof GameRoute
   '/login': typeof authLoginRoute
   '/panel/admin': typeof PanelAdminRoute
+  '/panel/areas': typeof PanelAreasRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/game': typeof GameRoute
   '/login': typeof authLoginRoute
   '/panel/admin': typeof PanelAdminRoute
+  '/panel/areas': typeof PanelAreasRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel': typeof PanelIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/game': typeof GameRoute
   '/(auth)/login': typeof authLoginRoute
   '/panel/admin': typeof PanelAdminRoute
+  '/panel/areas': typeof PanelAreasRoute
   '/panel/factions': typeof PanelFactionsRoute
   '/panel/items': typeof PanelItemsRoute
   '/panel/': typeof PanelIndexRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/game'
     | '/login'
     | '/panel/admin'
+    | '/panel/areas'
     | '/panel/factions'
     | '/panel/items'
     | '/panel'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/game'
     | '/login'
     | '/panel/admin'
+    | '/panel/areas'
     | '/panel/factions'
     | '/panel/items'
     | '/panel'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/game'
     | '/(auth)/login'
     | '/panel/admin'
+    | '/panel/areas'
     | '/panel/factions'
     | '/panel/items'
     | '/panel/'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   GameRoute: typeof GameRoute
   authLoginRoute: typeof authLoginRoute
   PanelAdminRoute: typeof PanelAdminRoute
+  PanelAreasRoute: typeof PanelAreasRoute
   PanelFactionsRoute: typeof PanelFactionsRoute
   PanelItemsRoute: typeof PanelItemsRoute
   PanelIndexRoute: typeof PanelIndexRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelFactionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/panel/areas': {
+      id: '/panel/areas'
+      path: '/panel/areas'
+      fullPath: '/panel/areas'
+      preLoaderRoute: typeof PanelAreasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/panel/admin': {
       id: '/panel/admin'
       path: '/panel/admin'
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   GameRoute: GameRoute,
   authLoginRoute: authLoginRoute,
   PanelAdminRoute: PanelAdminRoute,
+  PanelAreasRoute: PanelAreasRoute,
   PanelFactionsRoute: PanelFactionsRoute,
   PanelItemsRoute: PanelItemsRoute,
   PanelIndexRoute: PanelIndexRoute,

@@ -27,24 +27,13 @@ import { useTitle } from "@/hooks/useTitle.ts";
 import { useAuth } from "@/context/AuthProvider";
 import axios from "axios";
 import { Loader2Icon } from "lucide-react";
+import { formSchema } from "@light/shared/validations/loginValidator.ts";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: Login,
 });
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
-
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Please enter your name" }),
-  password: z
-    .string()
-    .min(1, {
-      message: "Please enter your password",
-    })
-    .min(2, {
-      message: "Password must be at least 7 characters long",
-    }),
-});
 
 function Login() {
 

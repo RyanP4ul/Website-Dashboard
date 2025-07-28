@@ -38,12 +38,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        {/* <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        /> */}
-        <h1>{user?.name} | {user?.access}</h1>
-        <SearchForm />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <a href="#">
+                {/* <IconInnerShadowTop className="!size-5" /> */}
+                <span className="text-base font-semibold">Panel - SuckMelator</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         {navigation().map((group, index) => (

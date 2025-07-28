@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import React, { useEffect } from "react";
 import axios from "axios";
-import TestDB from "@/features/panel/testdt.tsx";
+import TestDB from "@/features/panel/DataTable.tsx";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { AccessLevels } from "@/constants/accessLevel.ts";
 
